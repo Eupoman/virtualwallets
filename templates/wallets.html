@@ -1,0 +1,50 @@
+{% extends 'theme/base.html' %} {% load static %} {% load transaction_status %} {% block content_wallet %}
+
+        <div class="activity-bal">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="activity">
+                            <h2>
+                                <div class="act-top"> <img src="/static/img/top-arrow.png" /> </div>
+                                Most Recent Activity
+                            </h2>
+                            <div class="qa-message-list" id="wallmessages">
+                                <!-- <div class="message-item" >
+                                    <div class="message-inner">
+                                        <p class="d-inline-block">Transaction</p>
+                                        <p class="d-inline-block"><b>06:21:2017</b></p>
+                                        <p class="pull-right"><span class="status-send">Send</span> 0.045344 BTC </p>
+                                    </div>
+                                </div> -->
+                            </div>
+                            <div class="act-bottom"> <img src="/static/img/down-arrow.png" style="    padding-top: 19px;" /> </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="my-balance">
+                            <h2>My Balance</h2>
+                            {% for obj in request.user.wallets.all %}
+                            <div class="bal-wrapper">
+                                <p class="d-inline-block">{{obj.name}}</p>
+                                {% if obj.name == 'btc' %}
+							    <p class="d-inline-block pull-right">{% get_bit_balance obj.address request.user.username %}</p>
+								{% elif obj.name == 'eth' %}
+								    <p class="d-inline-block pull-right">{% get_eth_balance obj.address %}</p>
+	                            {% elif obj.name == 'btg' %}
+								    <p class="d-inline-block pull-right">{% get_btg_balance obj.address %}</p>
+								{% elif obj.name == 'ltc' %}
+								    <p class="d-inline-block pull-right">{% get_ltc_balance obj.address %}</p>
+								{% else %}
+								    <p class="d-inline-block pull-right">0</p>
+								{% endif %}
+								<h6 style="font-size: 13px; word-wrap: break-word;">{{obj.address}}</h6>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
